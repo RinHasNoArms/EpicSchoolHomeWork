@@ -30,6 +30,7 @@ class CustomTableViewCell: UITableViewCell {
     private let shareButton = UIButton()
     // анимация лайка
     private let likeImage = UIImageView()
+    private let separator = UIView()
     
     // флаг смены состояния кнопки
     var flag = false {
@@ -41,7 +42,7 @@ class CustomTableViewCell: UITableViewCell {
     // количество лайков
     var numLikes: UInt = 0 {
         didSet{
-            likeLabel.text = numLikes.likes()
+            likeLabel.text = getStringCountLikes(count: numLikes)
             let imgName = flag ? "suit.heart.fill" : "suit.heart"
             likeButton.setImage(UIImage(systemName: imgName), for: .normal)
         }
@@ -58,6 +59,7 @@ class CustomTableViewCell: UITableViewCell {
         setupLikeImage()
         setupLikeButton()
         setupLikeLabel()
+        setupSeparator()
         setupTextPost()
     }
     
@@ -70,14 +72,10 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     @objc func onDoubleTap(_ sender: AnyObject) {
-        likeImage.isHidden = false
-        likeImage.alpha = 1.0
         flag = !flag
-        
-        UIView.animate(withDuration: 0.5, delay: 0.15, options: [], animations: {
-            self.likeImage.alpha = 0
-        }, completion: {
-            (value: Bool) in self.likeImage.isHidden = true })
+        if flag {
+            animateImage()
+        }
     }
     
     @objc func shareImage(_ sender: UIButton){
@@ -92,6 +90,23 @@ class CustomTableViewCell: UITableViewCell {
         nameProfile.text = post.nameProfile
         textPost.text = post.textProfile
         numLikes = post.countLikes
+    }
+    
+    private func animateImage(){
+        likeImage.isHidden = false
+        likeImage.alpha = 1.0
+        
+        UIView.animate(withDuration: 0.5, delay: 0.15, options: [], animations: {
+            self.likeImage.alpha = 0
+        }, completion: {
+            (value: Bool) in self.likeImage.isHidden = true
+        })
+    }
+    
+    private func getStringCountLikes(count: UInt) -> String {
+        let formatStr: String = NSLocalizedString("Count Likes", comment: "")
+        let resultStr: String = String.localizedStringWithFormat(formatStr, count)
+        return resultStr
     }
     
     private func setupImageProfile(){
@@ -203,6 +218,18 @@ class CustomTableViewCell: UITableViewCell {
         ])
     }
     
+    private func setupSeparator(){
+        addSubview(separator)
+        
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 10)
+        ])
+    }
+    
     private func setupTextPost(){
         textPost.numberOfLines = 0
         textPost.textColor = .black
@@ -213,10 +240,9 @@ class CustomTableViewCell: UITableViewCell {
             textPost.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
             textPost.topAnchor.constraint(equalTo: likeButton.bottomAnchor, constant: 5),
             textPost.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
-            textPost.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
+            textPost.bottomAnchor.constraint(equalTo: separator.topAnchor, constant: -5)
         ])
     }
-    
 }
 
 

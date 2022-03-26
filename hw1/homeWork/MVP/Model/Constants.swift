@@ -7,28 +7,32 @@
 
 import UIKit
 
-struct imagesPosts {
-    static let first = UIImage(named: "firstImg")!
-    static let second = UIImage(named: "secondImg")!
-    static let third = UIImage(named: "thirdImg")!
-    static let fourth = UIImage(named: "fourthImg")!
-    static let fifth = UIImage(named: "fifthImg")!
-    static let sixth = UIImage(named: "sixthImg")!
-    static let seventh = UIImage(named: "seventhImg")!
-    static let eighth = UIImage(named: "eighthImg")!
-    static let ninth = UIImage(named: "ninthImg")!
-    static let tenth = UIImage(named: "tenthImg")!
+struct ImagesPosts {
+    static let image = ImagesPosts()
+    
+    let first = UIImage(named: "firstImg")
+    let second = UIImage(named: "secondImg")
+    let third = UIImage(named: "thirdImg")
+    let fourth = UIImage(named: "fourthImg")
+    let fifth = UIImage(named: "fifthImg")
+    let sixth = UIImage(named: "sixthImg")
+    let seventh = UIImage(named: "seventhImg")
+    let eighth = UIImage(named: "eighthImg")
+    let ninth = UIImage(named: "ninthImg")
+    let tenth = UIImage(named: "tenthImg")
 }
 
-struct imagesProfiles{
-    static let first = UIImage(named: "image1")!
-    static let second = UIImage(named: "image1")!
-    static let third = UIImage(named: "image1")!
-    static let fourth = UIImage(named: "image1")!
-    static let fifth = UIImage(named: "image1")!
-    static let sixth = UIImage(named: "image1")!
-    static let seventh = UIImage(named: "image1")!
-    static let eighth = UIImage(named: "image1")!
-    static let ninth = UIImage(named: "image1")!
-    static let tenth = UIImage(named: "image1")!
+struct ImagesProfiles{
+    static let image = ImagesProfiles()
+    
+    let first: UIImage? = UIImage(named: "image1")
+    let second: UIImage? = UIImage(named: "image1")
+    let third: UIImage? = UIImage(named: "image1")
+    let fourth: UIImage? = UIImage(named: "image1")
+    let fifth: UIImage? = UIImage(named: "image1")
+    let sixth: UIImage? = UIImage(named: "image1")
+    let seventh: UIImage? = UIImage(named: "image1")
+    let eighth: UIImage? = UIImage(named: "image1")
+    let ninth: UIImage? = UIImage(named: "image1")
+    let tenth: UIImage? = UIImage(named: "image1")
 }

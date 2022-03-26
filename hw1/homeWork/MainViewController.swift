@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class mainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CustomCellDelegate, PostPresenterDelegate {
+final class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CustomCellDelegate, PostPresenterDelegate {
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -46,7 +46,7 @@ final class mainViewController: UIViewController, UITableViewDelegate, UITableVi
 
 // MARK: - PostPresenterDelegate
 
-extension mainViewController {
+extension MainViewController {
     func presentPosts(posts: [Post]) {
         self.posts = posts
     }
@@ -54,7 +54,7 @@ extension mainViewController {
 
 // MARK: - CustomCellDelegate
 
-extension mainViewController {
+extension MainViewController {
     func shareImage(cell: CustomTableViewCell) {
         let image = cell.imagePost.image
         let imageToShare = [image!]
@@ -65,7 +65,7 @@ extension mainViewController {
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
-extension mainViewController{
+extension MainViewController{
     // работа с ячейками
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cells.cellIdentifier, for: indexPath) as! CustomTableViewCell

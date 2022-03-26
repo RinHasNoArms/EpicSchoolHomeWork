@@ -18,27 +18,3 @@ extension UIView{
         bottomAnchor.constraint(equalTo: superView.bottomAnchor, constant: 0).isActive      = true
     }
 }
-
-// MARK: - Расширение для лайков типа int чтобы правильно скланялось окончание
-extension UInt {
-    func likes() -> String {
-        
-        var likes: String!
-        let number = self%10
-        
-        switch number{
-        case 0:
-            likes = "лайков"
-        case 1:
-            likes = "лайк"
-        case 2...4:
-            likes = "лайка"
-        case 5...9:
-            likes = "лайков"
-        default:
-            likes = "лайка"
-        }
-        
-    return "\(self) " + likes
-    }
-}
