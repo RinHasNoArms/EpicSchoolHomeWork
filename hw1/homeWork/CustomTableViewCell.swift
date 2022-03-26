@@ -85,8 +85,17 @@ class CustomTableViewCell: UITableViewCell {
     }
     
     func setDataOnCell(post: Post){
-        imagePost.image = post.imagePost
-        imageProfile.image = post.imageProfile
+        if let unwrappedImage = post.imagePost {
+            imagePost.image = unwrappedImage
+        } else {
+            imagePost.image = UIImage(systemName: "xmark")
+        }
+        
+        if let unwrappedImage = post.imageProfile {
+            imageProfile.image = unwrappedImage
+        } else {
+            imageProfile.image = UIImage(systemName: "xmark")
+        }
         nameProfile.text = post.nameProfile
         textPost.text = post.textProfile
         numLikes = post.countLikes
