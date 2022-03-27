@@ -1,5 +1,5 @@
 //
-//  customTableViewCell.swift
+//  CustomTableViewCell.swift
 //  homeWork
 //
 //  Created by Александр Романов on 18.03.2022.

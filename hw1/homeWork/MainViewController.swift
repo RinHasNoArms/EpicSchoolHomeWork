@@ -1,5 +1,5 @@
 //
-//  mainViewController.swift
+//  MainViewController.swift
 //  homeWork
 //
 //  Created by Александр Романов on 17.03.2022.
