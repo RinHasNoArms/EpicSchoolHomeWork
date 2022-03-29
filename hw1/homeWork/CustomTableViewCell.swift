@@ -58,7 +58,7 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         setupShareButton()
         setupNameProfile()
         setupImagePost()
-        setupLikeImage()
+        //setupLikeImage()
         setupLikeButton()
         setupLikeLabel()
         setupSeparator()
@@ -194,7 +194,9 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         imagePost.contentMode = UIView.ContentMode.scaleToFill
         imagePost.isUserInteractionEnabled = true
         addGestureOnImagePost()
+        imagePost.enableZoom()
         addSubview(imagePost)
+        
         
         imagePost.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
