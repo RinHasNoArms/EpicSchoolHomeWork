@@ -12,6 +12,8 @@
 		22102DC227E3BE50009455E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22102DC027E3BE50009455E6 /* LaunchScreen.storyboard */; };
 		22102DCC27E3BF7D009455E6 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22102DCB27E3BF7D009455E6 /* MainViewController.xib */; };
 		22102DCE27E3BFD6009455E6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22102DCD27E3BFD6009455E6 /* MainViewController.swift */; };
+		2257572F27F06C5F00E7E18B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2257572E27F06C5F00E7E18B /* NetworkService.swift */; };
+		2257573127F074AE00E7E18B /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2257573027F074AE00E7E18B /* NetworkModel.swift */; };
 		2263425727E9ED2D00DE11D5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2263425627E9ED2D00DE11D5 /* Post.swift */; };
 		2263425927E9EDB300DE11D5 /* PostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2263425827E9EDB300DE11D5 /* PostPresenter.swift */; };
 		22D13D2A27EDDCA6002B3B8C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 22D13D2927EDDCA6002B3B8C /* Localizable.stringsdict */; };
@@ -28,6 +30,8 @@
 		22102DC327E3BE50009455E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22102DCB27E3BF7D009455E6 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		22102DCD27E3BFD6009455E6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		2257572E27F06C5F00E7E18B /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		2257573027F074AE00E7E18B /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		2263425627E9ED2D00DE11D5 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		2263425827E9EDB300DE11D5 /* PostPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPresenter.swift; sourceTree = "<group>"; };
 		22D13D2927EDDCA6002B3B8C /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -66,6 +70,7 @@
 		22102DB427E3BE4F009455E6 /* homeWork */ = {
 			isa = PBXGroup;
 			children = (
+				2257572D27F06C3A00E7E18B /* Networking */,
 				2263425327E9ECD900DE11D5 /* MVP */,
 				22D3D83A27E700A800E3BF73 /* Extensions */,
 				22102DCA27E3BEE4009455E6 /* MainViewController */,
@@ -88,6 +93,14 @@
 			name = MainViewController;
 			sourceTree = "<group>";
 		};
+		2257572D27F06C3A00E7E18B /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				2257572E27F06C5F00E7E18B /* NetworkService.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		2263425327E9ECD900DE11D5 /* MVP */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +115,7 @@
 			children = (
 				2263425627E9ED2D00DE11D5 /* Post.swift */,
 				22D3D84127E75F9E00E3BF73 /* Constants.swift */,
+				2257573027F074AE00E7E18B /* NetworkModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -196,6 +210,8 @@
 			files = (
 				22102DB627E3BE4F009455E6 /* AppDelegate.swift in Sources */,
 				22102DCE27E3BFD6009455E6 /* MainViewController.swift in Sources */,
+				2257572F27F06C5F00E7E18B /* NetworkService.swift in Sources */,
+				2257573127F074AE00E7E18B /* NetworkModel.swift in Sources */,
 				22D3D83C27E700D400E3BF73 /* Extensions.swift in Sources */,
 				2263425927E9EDB300DE11D5 /* PostPresenter.swift in Sources */,
 				22DE673A27E4C67100B3E445 /* CustomTableViewCell.swift in Sources */,

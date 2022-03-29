@@ -11,7 +11,7 @@ protocol CustomCellDelegate: AnyObject {
     func shareImage(cell: CustomTableViewCell)
 }
 
-class CustomTableViewCell: UITableViewCell {
+class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
     
     weak var delegate: CustomCellDelegate?
     // картинка профиля
@@ -31,6 +31,7 @@ class CustomTableViewCell: UITableViewCell {
     // анимация лайка
     private let likeImage = UIImageView()
     private let separator = UIView()
+    private let scrollView = UIScrollView()
     
     // флаг смены состояния кнопки
     var flag = false {
@@ -52,6 +53,7 @@ class CustomTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.isUserInteractionEnabled = true
+       // setupScrollView()
         setupImageProfile()
         setupShareButton()
         setupNameProfile()
@@ -84,20 +86,27 @@ class CustomTableViewCell: UITableViewCell {
         }
     }
     
-    func setDataOnCell(post: Post){
-        if let unwrappedImage = post.imagePost {
-            imagePost.image = unwrappedImage
+    func setDataOnCell(post: Post?){
+        guard let post = post else {return}
+        
+        if let image = post.imagePost {
+            imagePost.load(url: URL(string: image)!)
         } else {
             imagePost.image = UIImage(systemName: "xmark")
         }
         
-        if let unwrappedImage = post.imageProfile {
-            imageProfile.image = unwrappedImage
+        if let image = post.imageProfile {
+            imageProfile.image = image
         } else {
             imageProfile.image = UIImage(systemName: "xmark")
         }
         nameProfile.text = post.nameProfile
-        textPost.text = post.textProfile
+        
+        if let text = post.textProfile {
+            textPost.text = text
+        } else {
+            textPost.text = "text not found"
+        }
         numLikes = post.countLikes
     }
     
@@ -164,6 +173,21 @@ class CustomTableViewCell: UITableViewCell {
         let gesture = UITapGestureRecognizer(target: self, action:#selector(onDoubleTap))
         gesture.numberOfTapsRequired = 2
         imagePost.addGestureRecognizer(gesture)
+    }
+    
+    private func setupScrollView(){
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 10.0
+        addSubview(scrollView)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollView.leftAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
     
     private func setupImagePost(){
@@ -253,5 +277,3 @@ class CustomTableViewCell: UITableViewCell {
         ])
     }
 }
-
-
