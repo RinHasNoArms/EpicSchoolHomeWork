@@ -36,7 +36,6 @@ extension UIImageView {
 extension UIImageView {
   func enableZoom() {
     let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(scalePiece(_:)))
-    isUserInteractionEnabled = true
     addGestureRecognizer(pinchGesture)
   }
     

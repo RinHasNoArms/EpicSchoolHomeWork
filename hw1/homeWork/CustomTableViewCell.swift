@@ -31,7 +31,6 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
     // анимация лайка
     private let likeImage = UIImageView()
     private let separator = UIView()
-    private let scrollView = UIScrollView()
     
     // флаг смены состояния кнопки
     var flag = false {
@@ -53,12 +52,11 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.isUserInteractionEnabled = true
-       // setupScrollView()
         setupImageProfile()
         setupShareButton()
         setupNameProfile()
         setupImagePost()
-        //setupLikeImage()
+        setupLikeImage()
         setupLikeButton()
         setupLikeLabel()
         setupSeparator()
@@ -170,24 +168,9 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
     
     private func addGestureOnImagePost(){
-        let gesture = UITapGestureRecognizer(target: self, action:#selector(onDoubleTap))
-        gesture.numberOfTapsRequired = 2
-        imagePost.addGestureRecognizer(gesture)
-    }
-    
-    private func setupScrollView(){
-        scrollView.delegate = self
-        scrollView.minimumZoomScale = 1.0
-        scrollView.maximumZoomScale = 10.0
-        addSubview(scrollView)
-        
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            scrollView.leftAnchor.constraint(equalTo: leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
+        let tapGesture = UITapGestureRecognizer(target: self, action:#selector(onDoubleTap))
+        tapGesture.numberOfTapsRequired = 2
+        imagePost.addGestureRecognizer(tapGesture)
     }
     
     private func setupImagePost(){
@@ -196,7 +179,6 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         addGestureOnImagePost()
         imagePost.enableZoom()
         addSubview(imagePost)
-        
         
         imagePost.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
