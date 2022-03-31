@@ -11,7 +11,7 @@ protocol CustomCellDelegate: AnyObject {
     func shareImage(cell: CustomTableViewCell)
 }
 
-class CustomTableViewCell: UITableViewCell {
+class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
     
     weak var delegate: CustomCellDelegate?
     // картинка профиля
@@ -32,6 +32,9 @@ class CustomTableViewCell: UITableViewCell {
     private let likeImage = UIImageView()
     private let separator = UIView()
     private let scrollViewImagePost = UIScrollView()
+    
+    private var scale: CGFloat = 1.0 { didSet { updateImagePostTransform() } }
+    private var pinchGestureAnchorScale: CGFloat?
     
     // флаг смены состояния кнопки
     private var flag = false {
@@ -177,28 +180,32 @@ class CustomTableViewCell: UITableViewCell {
         imagePost.addGestureRecognizer(pinchGesture)
     }
     
+    private func updateImagePostTransform(){
+        imagePost.transform = CGAffineTransform.identity.scaledBy(x: scale, y: scale)
+    }
+    
     @objc private func scalePiece(_ gestureRecognizer : UIPinchGestureRecognizer) {
         guard gestureRecognizer.view != nil else { return }
         
         switch gestureRecognizer.state {
-        case .began, .changed:
-            if gestureRecognizer.scale <= 1.0 {break}
-            gestureRecognizer.view?.transform = (gestureRecognizer.view?.transform.scaledBy(x: gestureRecognizer.scale, y: gestureRecognizer.scale))!
-            gestureRecognizer.scale = 1.0
+        case .began:
+            pinchGestureAnchorScale = gestureRecognizer.scale
+        case .changed:
+            guard let pinchGestureAnchorScale = pinchGestureAnchorScale else { return }
+            if pinchGestureAnchorScale <= 1 { return }
+            let gestureScale = gestureRecognizer.scale
+            scale += gestureScale - pinchGestureAnchorScale
+            self.pinchGestureAnchorScale = gestureScale
         case .cancelled, .ended:
-            print("\(gestureRecognizer.state)")
+            scale = 1
+            pinchGestureAnchorScale = nil
         case .possible, .failed:
             print("\(gestureRecognizer.state)")
             break
         }
     }
     
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-            return imagePost
-    }
-    
     private func setupScrollViewImagePost(){
-        scrollViewImagePost.minimumZoomScale = 1.0
         addSubview(scrollViewImagePost)
         
         scrollViewImagePost.translatesAutoresizingMaskIntoConstraints = false
