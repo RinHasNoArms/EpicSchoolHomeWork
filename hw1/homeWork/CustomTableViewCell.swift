@@ -11,7 +11,7 @@ protocol CustomCellDelegate: AnyObject {
     func shareImage(cell: CustomTableViewCell)
 }
 
-class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
+class CustomTableViewCell: UITableViewCell {
     
     weak var delegate: CustomCellDelegate?
     // картинка профиля
@@ -31,16 +31,17 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
     // анимация лайка
     private let likeImage = UIImageView()
     private let separator = UIView()
+    private let scrollViewImagePost = UIScrollView()
     
     // флаг смены состояния кнопки
-    var flag = false {
+    private var flag = false {
         didSet{
             flag ? (numLikes+=1) : (numLikes-=1)
         }
     }
     
     // количество лайков
-    var numLikes: UInt = 0 {
+    private var numLikes: UInt = 0 {
         didSet{
             likeLabel.text = getStringCountLikes(count: numLikes)
             let imgName = flag ? "suit.heart.fill" : "suit.heart"
@@ -55,6 +56,7 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         setupImageProfile()
         setupShareButton()
         setupNameProfile()
+        setupScrollViewImagePost()
         setupImagePost()
         setupLikeImage()
         setupLikeButton()
@@ -171,21 +173,55 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         let tapGesture = UITapGestureRecognizer(target: self, action:#selector(onDoubleTap))
         tapGesture.numberOfTapsRequired = 2
         imagePost.addGestureRecognizer(tapGesture)
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(scalePiece(_:)))
+        imagePost.addGestureRecognizer(pinchGesture)
+    }
+    
+    @objc private func scalePiece(_ gestureRecognizer : UIPinchGestureRecognizer) {
+        guard gestureRecognizer.view != nil else { return }
+        
+        switch gestureRecognizer.state {
+        case .began, .changed:
+            if gestureRecognizer.scale <= 1.0 {break}
+            gestureRecognizer.view?.transform = (gestureRecognizer.view?.transform.scaledBy(x: gestureRecognizer.scale, y: gestureRecognizer.scale))!
+            gestureRecognizer.scale = 1.0
+        case .cancelled, .ended:
+            print("\(gestureRecognizer.state)")
+        case .possible, .failed:
+            print("\(gestureRecognizer.state)")
+            break
+        }
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+            return imagePost
+    }
+    
+    private func setupScrollViewImagePost(){
+        scrollViewImagePost.minimumZoomScale = 1.0
+        addSubview(scrollViewImagePost)
+        
+        scrollViewImagePost.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollViewImagePost.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollViewImagePost.topAnchor.constraint(equalTo: imageProfile.bottomAnchor, constant: 5),
+            scrollViewImagePost.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollViewImagePost.heightAnchor.constraint(equalToConstant: 300),
+        ])
     }
     
     private func setupImagePost(){
         imagePost.contentMode = UIView.ContentMode.scaleToFill
         imagePost.isUserInteractionEnabled = true
         addGestureOnImagePost()
-        imagePost.enableZoom()
-        addSubview(imagePost)
+        scrollViewImagePost.addSubview(imagePost)
         
         imagePost.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imagePost.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imagePost.topAnchor.constraint(equalTo: imageProfile.bottomAnchor, constant: 5),
-            imagePost.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imagePost.heightAnchor.constraint(equalToConstant: 300),
+            imagePost.centerYAnchor.constraint(equalTo: scrollViewImagePost.centerYAnchor),
+            imagePost.centerXAnchor.constraint(equalTo: scrollViewImagePost.centerXAnchor),
+            imagePost.topAnchor.constraint(equalTo: scrollViewImagePost.topAnchor),
+            imagePost.leadingAnchor.constraint(equalTo: scrollViewImagePost.leadingAnchor),
         ])
     }
     
@@ -197,8 +233,8 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         
         likeImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            likeImage.centerXAnchor.constraint(equalTo: imagePost.centerXAnchor),
-            likeImage.centerYAnchor.constraint(equalTo: imagePost.centerYAnchor),
+            likeImage.centerXAnchor.constraint(equalTo: scrollViewImagePost.centerXAnchor),
+            likeImage.centerYAnchor.constraint(equalTo: scrollViewImagePost.centerYAnchor),
             likeImage.widthAnchor.constraint(equalToConstant: 100),
             likeImage.heightAnchor.constraint(equalToConstant: 100)
         ])
@@ -212,7 +248,7 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         likeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             likeButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
-            likeButton.topAnchor.constraint(equalTo: imagePost.bottomAnchor, constant: 5),
+            likeButton.topAnchor.constraint(equalTo: scrollViewImagePost.bottomAnchor, constant: 5),
             likeButton.widthAnchor.constraint(equalToConstant: 30),
             likeButton.heightAnchor.constraint(equalToConstant: 30)
         ])
@@ -228,7 +264,7 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
         likeLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             likeLabel.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor),
-            likeLabel.topAnchor.constraint(equalTo: imagePost.bottomAnchor, constant: 5),
+            likeLabel.topAnchor.constraint(equalTo: scrollViewImagePost.bottomAnchor, constant: 5),
             likeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
             likeLabel.heightAnchor.constraint(equalToConstant: 30),
             likeLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor),

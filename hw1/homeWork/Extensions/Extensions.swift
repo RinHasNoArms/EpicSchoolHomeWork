@@ -32,19 +32,3 @@ extension UIImageView {
         }
     }
 }
-
-extension UIImageView {
-  func enableZoom() {
-    let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(scalePiece(_:)))
-    addGestureRecognizer(pinchGesture)
-  }
-    
-    @objc private func scalePiece(_ gestureRecognizer : UIPinchGestureRecognizer) {
-        guard gestureRecognizer.view != nil else { return }
-        if gestureRecognizer.scale < 1 {return}
-        if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
-          gestureRecognizer.view?.transform = (gestureRecognizer.view?.transform.scaledBy(x: gestureRecognizer.scale, y: gestureRecognizer.scale))!
-          gestureRecognizer.scale = 1.0
-       }
-    }
-}
