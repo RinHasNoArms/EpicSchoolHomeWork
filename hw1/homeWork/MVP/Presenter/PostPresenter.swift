@@ -31,7 +31,6 @@ class PostPresenter {
     private func fetchComments() {
         let urlString = "https://www.breakingbadapi.com/api/characters?limit=10&offset=10"
         networkService?.downloadData(for: urlString) {(result: Result<[BreakingBad]?, Error>) in
-            DispatchQueue.main.async {
                 switch result {
                 case .success(let bbCharacters):
                     self.loadPosts(bbCharacters: bbCharacters)
@@ -39,7 +38,6 @@ class PostPresenter {
                 case .failure(let error):
                     print("Error data \(error)")
                 }
-            }
         }
     }
 }

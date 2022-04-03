@@ -39,7 +39,8 @@ final class NetworkService {
             
             do {
                 let jsonData = try JSONDecoder().decode([T].self, from: data)
-                    completion(.success(jsonData))
+                DispatchQueue.main.async {
+                    completion(.success(jsonData))}
                 } catch {
                     completion(.failure(error))
             }

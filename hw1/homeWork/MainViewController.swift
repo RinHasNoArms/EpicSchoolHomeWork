@@ -60,11 +60,12 @@ extension MainViewController: PostPresenterProtocol {
 
 extension MainViewController: CustomCellDelegate {
     func shareImage(cell: CustomTableViewCell) {
-        let image = cell.imagePost.image
-        let imageToShare = [image!]
+        if let image = cell.imagePost.image {
+        let imageToShare = [image]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)}
+            self.present(activityViewController, animated: true, completion: nil)}
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
