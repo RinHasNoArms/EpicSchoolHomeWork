@@ -7,7 +7,14 @@
 
 import UIKit
 
-final class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CustomCellDelegate, PostPresenterDelegate {
+final class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    private var presenter: PostPresenter?
+    private var posts: [Post]?
+    
+    struct Cells {
+        static let cellIdentifier = "cellNode"
+    }
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -15,23 +22,19 @@ final class MainViewController: UIViewController, UITableViewDelegate, UITableVi
         return table
     }()
     
-    private let presenter = PostPresenter()
-    private var posts = [Post]()
-    
-    struct Cells {
-        static let cellIdentifier = "cellNode"
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "RosGramm"
+        setupPresenter()
         setupTableView()
-        presenter.setViewDelegate(delegate: self)
-        presenter.getPosts()
+    }
+    
+    private func setupPresenter() {
+        self.presenter = PostPresenter(with: self)
     }
     
     // добавляем таблицу на view и настраиваем
-    private func setupTableView(){
+    private func setupTableView() {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
@@ -46,21 +49,23 @@ final class MainViewController: UIViewController, UITableViewDelegate, UITableVi
 
 // MARK: - PostPresenterDelegate
 
-extension MainViewController {
-    func presentPosts(posts: [Post]) {
+extension MainViewController: PostPresenterProtocol {
+    func updateData(_ posts: [Post]?) {
         self.posts = posts
+        tableView.reloadData()
     }
 }
 
 // MARK: - CustomCellDelegate
 
-extension MainViewController {
+extension MainViewController: CustomCellDelegate {
     func shareImage(cell: CustomTableViewCell) {
-        let image = cell.imagePost.image
-        let imageToShare = [image!]
+        if let image = cell.imagePost.image {
+        let imageToShare = [image]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)}
+            self.present(activityViewController, animated: true, completion: nil)}
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -69,7 +74,7 @@ extension MainViewController{
     // работа с ячейками
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cells.cellIdentifier, for: indexPath) as! CustomTableViewCell
-        let post = posts[indexPath.row]
+        let post = posts?[indexPath.row]
         cell.setDataOnCell(post: post)
         cell.delegate = self
         return cell
@@ -77,6 +82,6 @@ extension MainViewController{
     
     //количество строк
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        return self.posts?.count ?? 0
     }
 }

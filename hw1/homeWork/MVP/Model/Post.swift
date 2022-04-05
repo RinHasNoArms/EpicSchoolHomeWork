@@ -10,7 +10,7 @@ import UIKit
 struct Post {
     var imageProfile: UIImage?
     var nameProfile: String
-    var imagePost: UIImage?
-    var textProfile: String
+    var imagePost: String?
+    var textProfile: String?
     var countLikes: UInt
 }
