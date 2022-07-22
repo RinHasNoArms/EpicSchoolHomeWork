@@ -18,7 +18,7 @@ class CustomTableViewCell: UITableViewCell, UIScrollViewDelegate {
     private let imageProfile = UIImageView()
     // текущее изображение
     let imagePost = UIImageView()
-    // кнопка лайка
+    // кнопка лайкаhh
     private let likeButton = UIButton()
     // лейбл количества лайков
     private let likeLabel = UILabel()
